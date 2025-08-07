@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting...</title>
+    <script>
+      // URLs for pre and post launch
+      const preLaunchURL = "https://theghazicode.com/launch";
+      const postLaunchURL = "https://theghazicode.com/fullaccess";
+
+      // Get expiry timestamp from URL (in milliseconds)
+      const urlParams = new URLSearchParams(window.location.search);
+      const expires = parseInt(urlParams.get("expires"));
+
+      // Get current time
+      const now = Date.now();
+
+      // Redirect logic
+      if (!isNaN(expires)) {
+        if (now < expires) {
+          window.location.href = preLaunchURL;
+        } else {
+          window.location.href = postLaunchURL;
+        }
+      } else {
+        // If no timestamp provided, default to post-launch
+        window.location.href = postLaunchURL;
+      }
+    </script>
+  </head>
+  <body>
+    <p>Redirecting...</p>
+  </body>
+</html>
