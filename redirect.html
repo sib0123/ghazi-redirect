@@ -1,34 +1,35 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>Redirecting...</title>
     <script>
-      // URLs for pre and post launch
-      const preLaunchURL = "https://theghazicode.com/launch";
-      const postLaunchURL = "https://theghazicode.com/fullaccess";
+      (function () {
+        const params = new URLSearchParams(window.location.search);
+        const timestampParam = params.get('t');
 
-      // Get expiry timestamp from URL (in milliseconds)
-      const urlParams = new URLSearchParams(window.location.search);
-      const expires = parseInt(urlParams.get("expires"));
-
-      // Get current time
-      const now = Date.now();
-
-      // Redirect logic
-      if (!isNaN(expires)) {
-        if (now < expires) {
-          window.location.href = preLaunchURL;
-        } else {
-          window.location.href = postLaunchURL;
+        // If no timestamp, redirect to post-launch page
+        if (!timestampParam) {
+          window.location.href = "https://post.theghazisystem.com";
+          return;
         }
-      } else {
-        // If no timestamp provided, default to post-launch
-        window.location.href = postLaunchURL;
-      }
+
+        const sentTime = parseInt(timestampParam, 10);
+        const now = Date.now();
+        const hours48 = 48 * 60 * 60 * 1000;
+
+        // If less than 48h since link was sent, show pre-launch
+        if (now - sentTime < hours48) {
+          window.location.href = "https://theghazisystem.com";
+        } else {
+          // Otherwise, show post-launch
+          window.location.href = "https://post.theghazisystem.com";
+        }
+      })();
     </script>
   </head>
   <body>
     <p>Redirecting...</p>
   </body>
 </html>
+
